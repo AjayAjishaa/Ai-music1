@@ -1,14 +1,17 @@
-song1 = "";
-song2 = "";
+Java = "";
+Randall = "";
 leftWristX = 0;
 leftWristY = 0;
 rightWristX = 0;
 rightWristY = 0;
+scoreLeftWrist = 0;
+song_Java = "";
+
 
 function preload()
 {
-    song1 = loadSound("song1.mp3");
-    song2 = loadSound("song2.mp3");
+    Java = loadSound("Java.mp3");
+    Randall = loadSound("Randall.mp3");
 }
 function setup()
 {
@@ -26,6 +29,8 @@ function gotPoses(results)
     if(results.length > 0)
     {
         console.log(results);
+        scoreLeftWrist = results[0].pose.keypoints[9].score;
+        console.log(scoreLeftWrist);
         
         leftWristX = results[0].pose.leftWrist.x;
         leftWristY = results[0].pose.leftWrist.y;
@@ -43,6 +48,26 @@ function modelLoaded()
 function draw()
 {
     image(video, 0, 0, 600, 500);
+
+    fill("#0c79f5");
+    stroke("#0c79f5");
+
+    song_Java = Java.isPlaying();
+    console.log(song_Java);
+
+    if(scoreLeftWrist > 0.2)
+    {
+        circle(leftWristX, leftWristY, 20);
+        Randall.stop();
+        if(song_Java == false)
+        {
+            Java.play();
+        }
+        else
+        {
+            document.getElementById("song").innerHTML = "Song Name: Java such a whole";
+        }
+    }
 }
 
 
